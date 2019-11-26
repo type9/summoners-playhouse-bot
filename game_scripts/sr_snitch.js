@@ -1,4 +1,3 @@
-import {ServerConfig} from 'bot.js';
 const Discord = require('discord.js');
 
 class SRSnitch{

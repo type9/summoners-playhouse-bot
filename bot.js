@@ -7,11 +7,6 @@ const SR_Snitch = require('/game_scripts/sr_snitch.js');
 client.login(auth.token);
 
 //configurables
-const cmd = ('!gm');
-
-const gm_lobby = ('Lobby');
-const gm_channel = ('game-status');
-
 //this object models information that needs to be passed to a game script
 class ServerConfig{
   constructor(){
@@ -39,22 +34,23 @@ config.gm_lobby = ('Lobby');
 config.gm_channel = ('game-status');
 
 config.sr_snitch_lobby = ('SR Snitch');
+config.sr_snitch_announcements('announcements');
 config.sr_snitch_t1_text = ('announcements-team-1');
 config.sr_snitch_t2_text = ('announcements-team-2');
 config.sr_snitch_t1_voice = ('team-1');
 config.sr_snitch_t2_voice = ('team-2');
 
 client.on('message', msg => {
-    if (!msg.guild) return; // checks that the message comes from a server
+    this_guild = msg.guild
+    if (!this_guild) return; // checks that the message comes from a server
 
-    if((msg.channel.parent.name == gm_lobby) && (msg.channel.name == gm_channel)){ // checks the message is coming from the correct channel in the correct category
+    if((msg.channel.parent.name == config.gm_lobby) && (msg.channel.name == config.gm_channel)){ // checks the message is coming from the correct channel in the correct category
       n = 0; // represents number of parameters we are in
       msg_content = msg.content.split(' '); // splits into an array
 
-      if(msg_content[n] == cmd){ // checks for the cmd key term
+      if(msg_content[n] == config.cmd){ // checks for the cmd key term
         n += 1; //move one layer argument deeper
         
-        this_guild = msg.guild
         if(msg_content[n] == 'start'){ // key term for starting games
           n +=1;
           if(msg_content[n] == 'sr-snitch'){ // intialization of a SR-Snitch game
