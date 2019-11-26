@@ -3,7 +3,9 @@ const client = new Discord.Client();
 const auth = require('./auth.json');
 
 //game scripts to import
-const SR_Snitch = require('/game_scripts/sr_snitch.js');
+const SR_Snitch = require('./game_scripts/sr_snitch.js');
+
+//login using token
 client.login(auth.token);
 
 //configurables
@@ -24,6 +26,7 @@ class ServerConfig{
   }
 }
 
+//console confirmation that we have logged in successfully
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -40,6 +43,7 @@ config.sr_snitch_t2_text = ('announcements-team-2');
 config.sr_snitch_t1_voice = ('team-1');
 config.sr_snitch_t2_voice = ('team-2');
 
+//bot response to messages
 client.on('message', msg => {
     this_guild = msg.guild
     if (!this_guild) return; // checks that the message comes from a server
@@ -58,12 +62,14 @@ client.on('message', msg => {
             msg.channel.send(`Starting a game of SR-Snitch with x players`);
           }
         } else if (msg_content[n] == 'ping') {
-          msg.reply('pong');
+          msg.channel.send('pong', {
+            tts: true
+          });
 
         } else if (msg_content[n] == 'clear') {
           msg.channel.bulkDelete(20);
+
         }
-        msg.channel.send(`Command had an incorrect argument at position ${n}`);
       }
     }
 });
